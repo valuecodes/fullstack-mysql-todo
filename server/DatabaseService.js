@@ -11,14 +11,14 @@ class DatabaseService {
             host: envObj.DB_HOST,
             user: envObj.DB_USER,
             password: envObj.DB_PASSWORD,
-            database: envObj.DATABASE,
+            database: envObj.DB_DATABASE,
             port: envObj.DB_PORT,
         }
     }
 
     connect(){
         this.connection = mysql.createConnection(this.databaseConfig);
-        this.connection.connect();
+        this.connection.connect(console.log);
     }
 
     getAll(){}
