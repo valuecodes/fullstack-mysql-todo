@@ -21,7 +21,21 @@ class DatabaseService {
         this.connection.connect(console.log);
     }
 
-    getAll(){}
+    async getAll(){
+        try{
+            const response = await new Promise((resolve, reject) =>{
+                const query = "SELECT * FROM todos;"
+                this.connection.query(query,(err, results) =>{
+                    console.log(results)
+                    if(err) reject(new Error(err.message))
+                    resolve(results)
+                })
+            })
+            return response
+        } catch(err) {
+            console.log(err)
+        }
+    }
 }
 
 module.exports = new DatabaseService(process.env); // sington design pattern
