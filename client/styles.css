@@ -4,6 +4,13 @@ main{
     text-align: center;
 }
 
+.inputs{
+    max-width: 10rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    margin: auto;
+}
+
 table{
     margin: 50px auto;
 }

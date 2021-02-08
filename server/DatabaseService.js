@@ -36,6 +36,28 @@ class DatabaseService {
             console.log(err)
         }
     }
+
+    async insertNewTodo(name,todo) {
+        try {
+            const dateAdded = new Date()
+            const insertId = await new Promise((resolve, reject) =>{
+                const query = "INSERT INTO todos (name,todo,date_added) VALUES (?,?,?)"
+                this.connection.query(query,[name,todo,dateAdded],(err, result) =>{
+                    console.log(result)
+                    if(err) reject(new Error(err.message))
+                    resolve(result.insertId)
+                })
+            })
+            return {
+                id: insertId,
+                name,
+                todo,
+                dateAdded,
+            }
+        } catch(err){
+            console.log(err)
+        }
+    }
 }
 
 module.exports = new DatabaseService(process.env); // sington design pattern
