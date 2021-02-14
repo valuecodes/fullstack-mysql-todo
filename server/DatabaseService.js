@@ -58,6 +58,23 @@ class DatabaseService {
             console.log(err)
         }
     }
+
+    async completeTodo(id){
+        try{
+            console.log(id+'test')
+            const result = await new Promise((resolve, reject) =>{
+                const query = "UPDATE todos SET completed=!completed WHERE id="+id
+                this.connection.query(query,(err, result) =>{
+                    console.log(result)
+                    if(err) reject(new Error(err.message))
+                    resolve(result)
+                })
+            })
+            return true
+        } catch(err){
+            return false
+        }
+    }
 }
 
 module.exports = new DatabaseService(process.env); // sington design pattern

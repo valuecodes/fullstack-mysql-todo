@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 })
 
 const addBtn = document.getElementById('add-todo-button')
+
 addBtn.onclick = () => {
     const userInput = document.getElementById('user-input')
     const user = userInput.value
@@ -17,11 +18,16 @@ addBtn.onclick = () => {
         body: JSON.stringify({user: user,todo: todo})
     })
     .then(response => response.json())
-    .then(data => insertRowIntoTable(data['data']))
+    .then(() => location.reload())
 }
 
-function insertRowIntoTable(data){
-    const table = document.querySelector('table tbody')
+const completeTodo = (id) =>{
+    console.log('test')
+    console.log(id)
+    fetch('http://localhost:5000/complete/'+id,{
+        headers: {'Content-type': 'application/json'},
+        method : 'PATCH',
+    })
 }
 
 const loadHTMLTable = (data) => {
@@ -32,18 +38,16 @@ const loadHTMLTable = (data) => {
         table.innerHTML = '<tr><td class="no-data" colspan="6">No data</td></tr>'
         return
     }
-
-    data.forEach(({id,name,todo,date_added})=> {
+    data.forEach(({id,name,todo,date_added,completed})=> {
         tableHtml += `
         <tr>
             <td>${id}</td>
             <td>${name}</td>
             <td>${todo}</td>
             <td>${new Date(date_added).toLocaleString()}</td>
+            <td><input onclick='completeTodo(${id})' type='checkbox' ${completed&&'checked'}/></td>
             <td><button class="delete-row" data-id=${id}></button></td>
-            <td><button></button></td>
         </tr>`
     });
-
     table.innerHTML = tableHtml
 }

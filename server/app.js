@@ -13,7 +13,6 @@ databaseService.connect();
 
 app.post('/insert', async (req,res) =>{
     const { user,todo } = req.body
-    console.log(req.body)
     const result = await databaseService.insertNewTodo(user,todo);
     res.json({
         data: result
@@ -22,10 +21,19 @@ app.post('/insert', async (req,res) =>{
 
 app.get('/getEverything', async (req,res) => {
     const data = await databaseService.getAll();
-    console.log(data)
     res.json({
         data: data
     });
+})
+
+app.patch('/complete/:id', async(req,res) =>{
+    const { id } = req.params
+    const success = await databaseService.completeTodo(id);
+    if(success){
+        res.send(200)  
+    }else{
+        res.send(500);
+    }
 })
 
 app.listen(process.env.PORT, () => {
