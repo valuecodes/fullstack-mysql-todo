@@ -30,9 +30,20 @@ app.patch('/complete/:id', async(req,res) =>{
     const { id } = req.params
     const success = await databaseService.completeTodo(id);
     if(success){
-        res.send(200)  
+        res.status(200).json({'success' : true})  
     }else{
-        res.send(500);
+        res.status(500);
+    }
+})
+
+app.delete('/delete/:id', async(req,res) =>{
+    const { id } = req.params
+    console.log(id)
+    const success = await databaseService.deleteTodo(id);
+    if(success){
+        res.status(200).json({'success' : true})
+    }else{
+        res.status(500);
     }
 })
 

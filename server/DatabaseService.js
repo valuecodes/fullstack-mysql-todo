@@ -36,7 +36,6 @@ class DatabaseService {
             console.log(err)
         }
     }
-
     async insertNewTodo(name,todo) {
         try {
             const dateAdded = new Date()
@@ -58,20 +57,33 @@ class DatabaseService {
             console.log(err)
         }
     }
-
     async completeTodo(id){
         try{
-            console.log(id+'test')
-            const result = await new Promise((resolve, reject) =>{
+            await new Promise((resolve, reject) =>{
                 const query = "UPDATE todos SET completed=!completed WHERE id="+id
                 this.connection.query(query,(err, result) =>{
-                    console.log(result)
                     if(err) reject(new Error(err.message))
                     resolve(result)
                 })
             })
             return true
         } catch(err){
+            console.log(err)
+            return false
+        }
+    }
+    async deleteTodo(id){
+        try{
+            await new Promise((resolve, reject) =>{
+                const query = "DELETE FROM todos WHERE id="+id
+                this.connection.query(query,(err, result) =>{
+                    if(err) reject(new Error(err.message))
+                    resolve(result)
+                })
+            })
+            return true
+        } catch(err){
+            console.log(err)
             return false
         }
     }

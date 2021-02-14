@@ -21,13 +21,20 @@ addBtn.onclick = () => {
     .then(() => location.reload())
 }
 
-const completeTodo = (id) =>{
-    console.log('test')
-    console.log(id)
+const completeTodo = (id) => {
     fetch('http://localhost:5000/complete/'+id,{
         headers: {'Content-type': 'application/json'},
         method : 'PATCH',
     })
+}
+
+const deleteTodo = (id) => {
+    fetch('http://localhost:5000/delete/'+id,{
+        headers: {'Content-type': 'application/json'},
+        method : 'DELETE',
+    })
+    .then(response => response.json())
+    .then(() => location.reload())
 }
 
 const loadHTMLTable = (data) => {
@@ -46,7 +53,7 @@ const loadHTMLTable = (data) => {
             <td>${todo}</td>
             <td>${new Date(date_added).toLocaleString()}</td>
             <td><input onclick='completeTodo(${id})' type='checkbox' ${completed&&'checked'}/></td>
-            <td><button class="delete-row" data-id=${id}></button></td>
+            <td><button onclick='deleteTodo(${id})' class="delete-row">Delete</button></td>
         </tr>`
     });
     table.innerHTML = tableHtml
